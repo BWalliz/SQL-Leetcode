@@ -61,3 +61,10 @@ FROM person
 LEFT JOIN address
 ON person.personid = address.personid;
 ```
+
+## QUESTION
+
+### MY SOLUTION
+
+```SQL
+```
