@@ -5,6 +5,8 @@ A repository for solutions to SQL leetcode problems.
 
 ## Medium
 
+### QUESTION 
+
 ```
 +-------------+------+
 | Column Name | Type |
@@ -62,7 +64,32 @@ LEFT JOIN address
 ON person.personid = address.personid;
 ```
 
-## QUESTION
+### QUESTION 181
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
+| salary      | int     |
+| managerId   | int     |
++-------------+---------+
+```
+
+Write a SQL query to find the employees who earn more than their manager.
+
+### MY SOLUTION
+
+```SQL
+SELECT e.name as Employee
+FROM Employee e
+JOIN Employee AS m
+ON e.managerId = m.id
+WHERE e.salary > m.salary;
+```
+
+### QUESTION
 
 ### MY SOLUTION
 
