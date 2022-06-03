@@ -5,6 +5,24 @@ A repository for solutions to SQL leetcode problems.
 
 ## Medium
 
+```
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+```
+
+Write a SQL query to report the second highest salary from the `Employee` table.  If there is no second highest salary, the query should report `null`.
+
+### MY SOLUTION
+```SQL
+SELECT MAX(salary) AS SecondHighestSalary
+FROM employee
+WHERE salary < (SELECT MAX(salary) FROM Employee);
+```
+
 ## Easy
 
 ### QUESTION 175
