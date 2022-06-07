@@ -109,8 +109,147 @@ ON e.Salary = mx.Salary AND e.Departmentid = mx.Departmentid;
 
 ```
 
+### QUESTION 180
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| num         | varchar |
++-------------+---------+
+```
+
+Write a SQL query to find all numbers that appear at least three times consecutively.
+
+### MY SOLUTION
+
+```SQL
+SELECT DISTINCT l1.num AS ConsecutiveNums
+FROM
+  Logs l1,
+  Logs l2,
+  Logs l3
+WHERE
+  l1.id = l2.id - 1
+  AND l2.id = l2.id - 1
+  AND l1.num = l2.num
+  AND l2.num = l3.num
+;
+```
+
+### QUESTION 1158
+
+```
++----------------+---------+
+| Column Name    | Type    |
++----------------+---------+
+| user_id        | int     |
+| join_date      | date    |
+| favorite_brand | varchar |
++----------------+---------+
+```
+```
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| order_id      | int     |
+| order_date    | date    |
+| item_id       | int     |
+| buyer_id      | int     |
+| seller_id     | int     |
++---------------+---------+
+```
+```
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| item_id       | int     |
+| item_brand    | varchar |
++---------------+---------+
+```
+
+Write a SQL query to find for each user, the join date and the number of orders they made as a buyer in `2019`.
+
+### MY SOLUTION
+
+```SQL
+SELECT
+    u.user_id AS buyer_id,
+    u.join_date,
+    SUM(CASE
+        WHEN o.order_date >= '2019-01-01' AND o.order_date <= '2019-12-31'
+        THEN 1
+        ELSE 0
+    END
+    ) AS orders_in_2019
+FROM Users u
+LEFT JOIN Orders o
+ON o.buyer_id = u.user_id
+GROUP BY u.user_id;
+```
+
+### QUESTION 1393
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| stock_name    | varchar |
+| operation     | enum    |
+| operation_day | int     |
+| price         | int     |
++---------------+---------+
+
+Write a SQL query to report the Capital gain/loss for each stock.
+
+### MY SOLUTION
+
+```SQL
+SELECT
+    s.stock_name,
+    SUM(IF(s.operation = 'BUY', -s.price, s.price)) AS capital_gain_loss
+FROM Stocks s
+GROUP BY s.stock_name
+```
+
 ## Easy
 
+### QUESTION 1965
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| name        | varchar |
++-------------+---------+
+```
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| salary      | int     |
++-------------+---------+
+```
+
+### MY SOLUTION
+
+```SQL
+SELECT employee_id
+FROM Employees
+WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
+UNION
+SELECT employee_id
+FROM Salaries
+WHERE employee_id NOT IN (SELECT employee_id FROM Employees)
+ORDER BY employee_id;
+```
+
+Write an SQL query to report the IDs of all the employees with missing information. The information of an employee is missing if:
+
+* The employee's name is missing, or
+* The employee's salary is missing.
 
 ### QUESTION 607
 
