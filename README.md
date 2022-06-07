@@ -191,6 +191,7 @@ GROUP BY u.user_id;
 
 ### QUESTION 1393
 
+```
 +---------------+---------+
 | Column Name   | Type    |
 +---------------+---------+
@@ -199,6 +200,7 @@ GROUP BY u.user_id;
 | operation_day | int     |
 | price         | int     |
 +---------------+---------+
+```
 
 Write a SQL query to report the Capital gain/loss for each stock.
 
