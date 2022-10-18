@@ -45,6 +45,56 @@ WHERE 3 > (SELECT
             );
 ```
 
+### QUESTION 262
+
+```
++-------------+----------+
+| Column Name | Type     |
++-------------+----------+
+| id          | int      |
+| client_id   | int      |
+| driver_id   | int      |
+| city_id     | int      |
+| status      | enum     |
+| request_at  | date     |     
++-------------+----------+
+```
+```
++-------------+----------+
+| Column Name | Type     |
++-------------+----------+
+| users_id    | int      |
+| banned      | enum     |
+| role        | enum     |
++-------------+----------+
+```
+
+The cancellation rate is computed by dividing the number of canceled (by client or driver) requests with unbanned users by the total number of requests with unbanned users on that day.
+
+Write a SQL query to find the cancellation rate of requests with unbanned users (both client and driver must not be banned) each day between "2013-10-01" and "2013-10-03". Round Cancellation Rate to two decimal points.
+
+### MY SOLUTION
+
+```SQL
+WITH cte
+AS (
+    SELECT
+        id,
+        request_at AS Day,
+        IF(status!='completed', 1, 0) AS Cancelled
+    FROM Trips
+    WHERE client_id IN (SELECT users_id FROM Users WHERE banned='No')
+        AND driver_id IN (SELECT users_id FROM Users WHERE banned='No')
+        AND request_at BETWEEN '2013-10-01' AND '2013-10-03'
+)
+
+SELECT
+    Day,
+    ROUND(SUM(Cancelled) / COUNT(id), 2) AS 'Cancellation Rate'
+FROM cte
+GROUP BY day 
+```
+
 ## Medium
 
 ### QUESTION 176
