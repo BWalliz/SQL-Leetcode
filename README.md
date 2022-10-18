@@ -66,6 +66,34 @@ SELECT MAX(salary) AS SecondHighestSalary
 FROM employee
 WHERE salary < (SELECT MAX(salary) FROM Employee);
 ```
+### QUESTION 177
+
+```
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| salary      | int  |
++-------------+------+
+```
+
+Write an SQL query to report the nth highest salary from the Employee table. If there is no nth highest salary, the query should report null.
+
+### MY SOLUTION
+
+```SQL
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+    SET N = N - 1;
+  RETURN (
+    SELECT DISTINCT salary
+    FROM Employee
+    ORDER BY salary DESC
+    LIMIT 1 OFFSET N
+);
+END
+```
+
 
 ### QUESTION 184
 
