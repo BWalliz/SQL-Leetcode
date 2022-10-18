@@ -520,6 +520,37 @@ FROM
 GROUP BY player_id;
 ```
 
+### QUESTION 620
+
+```
++----------------+----------+
+| Column Name    | Type     |
++----------------+----------+
+| id             | int      |
+| movie          | varchar  |
+| description    | varchar  |
+| rating         | float    |
++----------------+----------+
+```
+
+Write an SQL query to report the movies with an odd-numbered ID and a description that is not "boring".
+
+Return the result table ordered by rating in descending order.
+
+### MY SOLUTION
+
+```SQL
+SELECT
+    id,
+    movie,
+    description,
+    rating
+FROM Cinema
+WHERE id % 2 <> 0
+AND description!='boring'
+ORDER BY rating DESC;
+```
+
 ### QUESTION 196
 
 ```
