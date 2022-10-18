@@ -235,6 +235,11 @@ GROUP BY s.stock_name
 +-------------+---------+
 ```
 
+Write an SQL query to report the IDs of all the employees with missing information. The information of an employee is missing if:
+
+* The employee's name is missing, or
+* The employee's salary is missing.
+
 ### MY SOLUTION
 
 ```SQL
@@ -247,11 +252,6 @@ FROM Salaries
 WHERE employee_id NOT IN (SELECT employee_id FROM Employees)
 ORDER BY employee_id;
 ```
-
-Write an SQL query to report the IDs of all the employees with missing information. The information of an employee is missing if:
-
-* The employee's name is missing, or
-* The employee's salary is missing.
 
 ### QUESTION 607
 
@@ -384,6 +384,36 @@ SELECT email
 FROM Person
 GROUP BY email
 HAVING COUNT(email) > 1;
+```
+### QUESTION 183
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
++-------------+---------+
+```
+```
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| id          | int  |
+| customerId  | int  |
++-------------+------+
+```
+Write an SQL query to report all customers who never order anything.
+
+### MY SOLUTION
+
+```SQL
+SELECT c.name as Customers
+FROM Customers c
+WHERE c.id NOT IN
+(
+    SELECT CustomerId FROM Orders
+);
 ```
 
 ### QUESTION 511
