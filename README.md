@@ -493,6 +493,29 @@ WHERE c.id NOT IN
     SELECT CustomerId FROM Orders
 );
 ```
+### QUESTION 197
+
+```
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| id            | int     |
+| recordDate    | date    |
+| temperature   | int     |
++---------------+---------+
+```
+
+Write an SQL query to find all dates' Id with higher temperatures compared to its previous dates (yesterday).
+
+### MY SOLUTION
+
+```SQL
+SELECT Weather.id
+FROM Weather
+    JOIN Weather as w
+    ON w.RecordDate = SUBDATE(Weather.RecordDate, 1)
+WHERE Weather.Temperature > w.Temperature ;
+```
 
 ### QUESTION 511
 
