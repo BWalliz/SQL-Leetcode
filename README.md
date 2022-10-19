@@ -144,6 +144,34 @@ BEGIN
 END
 ```
 
+### QUESTION 180
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| num         | varchar |
++-------------+---------+
+```
+
+Write a SQL query to find all numbers that appear at least three times consecutively.
+
+### MY SOLUTION
+
+```SQL
+SELECT DISTINCT l1.num AS ConsecutiveNums
+FROM
+  Logs l1,
+  Logs l2,
+  Logs l3
+WHERE
+  l1.id = l2.id - 1
+  AND l2.id = l2.id - 1
+  AND l1.num = l2.num
+  AND l2.num = l3.num
+;
+```
 
 ### QUESTION 184
 
@@ -184,37 +212,6 @@ JOIN (
     GROUP BY Departmentid
     ) AS mx
 ON e.Salary = mx.Salary AND e.Departmentid = mx.Departmentid;
-
-```
-
-### QUESTION 180
-
-```
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| id          | int     |
-| num         | varchar |
-+-------------+---------+
-```
-
-Write a SQL query to find all numbers that appear at least three times consecutively.
-
-### MY SOLUTION
-
-```SQL
-SELECT DISTINCT l1.num AS ConsecutiveNums
-FROM
-  Logs l1,
-  Logs l2,
-  Logs l3
-WHERE
-  l1.id = l2.id - 1
-  AND l2.id = l2.id - 1
-  AND l1.num = l2.num
-  AND l2.num = l3.num
-;
-```
 
 ### QUESTION 1158
 
@@ -293,92 +290,6 @@ GROUP BY s.stock_name
 ```
 
 ## Easy
-
-### QUESTION 1965
-
-```
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| employee_id | int     |
-| name        | varchar |
-+-------------+---------+
-```
-```
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| employee_id | int     |
-| salary      | int     |
-+-------------+---------+
-```
-
-Write an SQL query to report the IDs of all the employees with missing information. The information of an employee is missing if:
-
-* The employee's name is missing, or
-* The employee's salary is missing.
-
-### MY SOLUTION
-
-```SQL
-SELECT employee_id
-FROM Employees
-WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
-UNION
-SELECT employee_id
-FROM Salaries
-WHERE employee_id NOT IN (SELECT employee_id FROM Employees)
-ORDER BY employee_id;
-```
-
-### QUESTION 607
-
-```
-+-----------------+---------+
-| Column Name     | Type    |
-+-----------------+---------+
-| sales_id        | int     |
-| name            | varchar |
-| salary          | int     |
-| commission_rate | int     |
-| hire_date       | date    |
-+-----------------+---------+
-```
-```
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| com_id      | int     |
-| name        | varchar |
-| city        | varchar |
-+-------------+---------+
-```
-```
-+-------------+------+
-| Column Name | Type |
-+-------------+------+
-| order_id    | int  |
-| order_date  | date |
-| com_id      | int  |
-| sales_id    | int  |
-| amount      | int  |
-+-------------+------+
-```
-
-Write a SQL query to report the names of all the salespersons who did not have any orders related to the company with the name "RED".
-
-### MY SOLUTION
-
-```SQL
-SELECT name
-FROM Salesperson
-WHERE sales_id NOT IN (
-  SELECT o.sales_id
-  FROM Orders o
-  JOIN Company c ON o.com_id = c.com_id
-  WHERE c.name = 'RED'
-);
-```
 
 ### QUESTION 175
 
@@ -493,6 +404,30 @@ WHERE c.id NOT IN
     SELECT CustomerId FROM Orders
 );
 ```
+
+### QUESTION 196
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| email       | varchar |
++-------------+---------+
+```
+
+Write a SQL query to delete all the duplicate emails, keeping only one unique email with the smallest `id`.
+
+### MY SOLUTION
+
+```SQL
+DELETE p2
+FROM Person p1
+JOIN Person p2
+ON p1.email = p2.email
+WHERE p1.id < p2.id;
+```
+
 ### QUESTION 197
 
 ```
@@ -543,6 +478,78 @@ FROM
 GROUP BY player_id;
 ```
 
+### QUESTION 586
+
+```
++-----------------+----------+
+| Column Name     | Type     |
++-----------------+----------+
+| order_number    | int      |
+| customer_number | int      |
++-----------------+----------+
+```
+
+Write an SQL query to find the `customer_number` for the customer who has placed the largest number of orders.
+
+### MY SOLUTION
+
+```SQL
+SELECT customer_number
+FROM Orders
+GROUP BY customer_number
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+```
+
+### QUESTION 607
+
+```
++-----------------+---------+
+| Column Name     | Type    |
++-----------------+---------+
+| sales_id        | int     |
+| name            | varchar |
+| salary          | int     |
+| commission_rate | int     |
+| hire_date       | date    |
++-----------------+---------+
+```
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| com_id      | int     |
+| name        | varchar |
+| city        | varchar |
++-------------+---------+
+```
+```
++-------------+------+
+| Column Name | Type |
++-------------+------+
+| order_id    | int  |
+| order_date  | date |
+| com_id      | int  |
+| sales_id    | int  |
+| amount      | int  |
++-------------+------+
+```
+
+Write a SQL query to report the names of all the salespersons who did not have any orders related to the company with the name "RED".
+
+### MY SOLUTION
+
+```SQL
+SELECT name
+FROM Salesperson
+WHERE sales_id NOT IN (
+  SELECT o.sales_id
+  FROM Orders o
+  JOIN Company c ON o.com_id = c.com_id
+  WHERE c.name = 'RED'
+);
+```
+
 ### QUESTION 620
 
 ```
@@ -574,52 +581,6 @@ AND description!='boring'
 ORDER BY rating DESC;
 ```
 
-### QUESTION 196
-
-```
-+-------------+---------+
-| Column Name | Type    |
-+-------------+---------+
-| id          | int     |
-| email       | varchar |
-+-------------+---------+
-```
-
-Write a SQL query to delete all the duplicate emails, keeping only one unique email with the smallest `id`.
-
-### MY SOLUTION
-
-```SQL
-DELETE p2
-FROM Person p1
-JOIN Person p2
-ON p1.email = p2.email
-WHERE p1.id < p2.id;
-```
-
-### QUESTION 586
-
-```
-+-----------------+----------+
-| Column Name     | Type     |
-+-----------------+----------+
-| order_number    | int      |
-| customer_number | int      |
-+-----------------+----------+
-```
-
-Write an SQL query to find the `customer_number` for the customer who has placed the largest number of orders.
-
-### MY SOLUTION
-
-```SQL
-SELECT customer_number
-FROM Orders
-GROUP BY customer_number
-ORDER BY COUNT(*) DESC
-LIMIT 1;
-```
-
 ### QUESTION 1141
 
 ```
@@ -644,6 +605,66 @@ SELECT
 FROM Activity
 WHERE activity_date BETWEEN '2019-06-27' AND '2019-07-27'
 GROUP BY day;
+```
+### QUESTION 1890
+
+```
++----------------+----------+
+| Column Name    | Type     |
++----------------+----------+
+| user_id        | int      |
+| time_stamp     | datetime |
++----------------+----------+
+```
+
+Write an SQL query to report the latest login for all users in the year 2020. Do not include the users who did not login in 2020.
+
+### MY SOLUTION
+
+```SQL
+SELECT
+    user_id,
+    MAX(time_stamp) AS 'last_stamp'
+FROM Logins
+WHERE YEAR(time_stamp) = 2020
+GROUP BY user_id ;
+```
+
+### QUESTION 1965
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| name        | varchar |
++-------------+---------+
+```
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| employee_id | int     |
+| salary      | int     |
++-------------+---------+
+```
+
+Write an SQL query to report the IDs of all the employees with missing information. The information of an employee is missing if:
+
+* The employee's name is missing, or
+* The employee's salary is missing.
+
+### MY SOLUTION
+
+```SQL
+SELECT employee_id
+FROM Employees
+WHERE employee_id NOT IN (SELECT employee_id FROM Salaries)
+UNION
+SELECT employee_id
+FROM Salaries
+WHERE employee_id NOT IN (SELECT employee_id FROM Employees)
+ORDER BY employee_id;
 ```
 
 ### QUESTION
