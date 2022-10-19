@@ -212,6 +212,7 @@ JOIN (
     GROUP BY Departmentid
     ) AS mx
 ON e.Salary = mx.Salary AND e.Departmentid = mx.Departmentid;
+```
 
 ### QUESTION 1158
 
