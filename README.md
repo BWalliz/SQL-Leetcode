@@ -502,6 +502,29 @@ ORDER BY COUNT(*) DESC
 LIMIT 1;
 ```
 
+### QUESTION 584
+
+```
++-------------+---------+
+| Column Name | Type    |
++-------------+---------+
+| id          | int     |
+| name        | varchar |
+| referee_id  | int     |
++-------------+---------+
+```
+
+Write an SQL query to report the names of the customer that are not referred by the customer with id = 2.
+
+### MY SOLUTION
+
+```SQL
+SELECT name
+FROM customer
+WHERE COALESCE(referee_id, 0) != 2 ;
+```
+
+
 ### QUESTION 607
 
 ```
